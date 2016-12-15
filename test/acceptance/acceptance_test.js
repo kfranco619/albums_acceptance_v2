@@ -48,8 +48,13 @@ describe('When the user clicks on the new album', () => {
             expect(element(by.id('artistTextID')).getAttribute('type')).toBe('text')
             expect(element(by.id('albumTextID')).getAttribute('type')).toBe('text')
             expect(element(by.id('genreTextID')).getAttribute('type')).toBe('text')
-        
            })
+        it('Then they should see a submit button for the form', () => {
+            browser.get('/albums/new')
+            //console.log(element(by.css('.form-control')).getAttribute('type'))
+           expect(element(by.id('btnAlbum')).getAttribute('type')).toBe('button')
+            // expect(element(by.buttonText('Create Album'))).toEqual('Create Album')
+        })
      })
 
     })
