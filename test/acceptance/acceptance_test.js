@@ -2,6 +2,8 @@
 const path = require('path')
 const http = require('http')
 const app = require(path.resolve('app'))
+const database = require(path.resolve('config/database'))
+const albumsCollection = database.get('albums')
 
 describe('Express CRUD', () => {
   beforeAll(() => {
@@ -9,6 +11,15 @@ describe('Express CRUD', () => {
     server.listen(0)
     browser.baseUrl = 'http://localhost:' + server.address().port
     browser.ignoreSynchronization = true
+  })
+  beforeAll((done) => {
+    albumsCollection.remove(done)
+    var testAlbum = {
+        artist: 'Nombre',
+        album: 'Senor',
+        genre: 'folk lore'
+    }
+    albumsCollection.insert(testAlbum)
   })
 
 
@@ -36,6 +47,9 @@ describe('Given a Album site', ()=> {
             browser.get('/albums')
             expect(element(by.tagName('a')).getAttribute('href')).toContain('albums/new') 
            })
+        xit('then the user should see the list of albums', ()=>{
+            expect(element(by.name('li')).artist).toEqual('Nombre')
+        })
      })
 
 describe('When the user clicks on the new album', () => {

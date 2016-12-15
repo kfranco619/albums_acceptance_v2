@@ -1,5 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const path = require('path')
+const router = express.Router();
+const database = require(path.resolve('config/database'))
+const albumsCollection = database.get('albums')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,7 +11,9 @@ router.get('/', function(req, res, next) {
 
 //Launch Albums
 router.get('/albums', function(req, res, next) {
-  res.render('albums');
+ 
+    res.render('albums')
+
 });
 
 //Launch New Albums
