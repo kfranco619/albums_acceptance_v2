@@ -45,7 +45,10 @@ describe('When the user clicks on the new album', () => {
            })
         it('Then they should see a textbox for artist', ()=> {
             browser.get('/albums/new')
-            expect(element(by.tagName('')).getAttribute('href')).toContain('albums/new') 
+            expect(element(by.id('artistTextID')).getAttribute('type')).toBe('text')
+            expect(element(by.id('albumTextID')).getAttribute('type')).toBe('text')
+            expect(element(by.id('genreTextID')).getAttribute('type')).toBe('text')
+        
            })
      })
 
