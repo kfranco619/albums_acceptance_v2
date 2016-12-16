@@ -13,7 +13,6 @@ describe('Express CRUD', () => {
     browser.ignoreSynchronization = true
   })
   beforeAll((done) => {
-    console.log('Im in before');
     albumsCollection.remove(done)
     var albums = {
         artist: 'Nombre',
@@ -67,7 +66,7 @@ describe('Given a Album site', ()=> {
         })
      })
 
-describe('When the user clicks on the new album', () => {
+     describe('When the user clicks on the new album', () => {
         it('Then they should see create album header', ()=> {
             browser.get('/albums/new')
             expect(element(by.tagName('h1')).getText()).toEqual('Create album')
@@ -94,39 +93,39 @@ describe('When the user clicks on the new album', () => {
      })
 
      describe('When the user clicks on the edit album', () => {
+
              it('Then they should see album details in edit mode', (done)=> {
-                 var id
-                 albumsCollection.find({}, (err, data) => {
-                   if(err)
-                   {
-                     done(err)
-                   }
-                  id = data[0]._id
-                  console.log('this is the collection' , id);
-                  browser.get('/albums/'+ id + 'edit')
+               var id
+               albumsCollection.find({}, (err, data) => {
+                 if(err)
+                 {
+                   done(err)
+                 }
+                id = data[0]._id
+                browser.get('/albums/'+ id + '/edit')
                   expect(element(by.tagName('h1')).getText()).toEqual('Edit album')
+
                   done()
                  })
                 })
-            //  it('Then they should see a textbox for artist', ()=> {
-            //      browser.get('/albums/new')
-            //      expect(element(by.id('artistTextID')).getAttribute('type')).toBe('text')
-            //      expect(element(by.id('albumTextID')).getAttribute('type')).toBe('text')
-            //      expect(element(by.id('genreTextID')).getAttribute('type')).toBe('text')
-             //
-            //     })
-            //  it('Then they should see a submit button for the form', () => {
-            //      browser.get('/albums/new')
-            //     expect(element(by.id('btnAlbum')).getAttribute('type')).toBe('submit')
-            //  })
-            //  it('Then the form should insert a new record', ()=> {
-            //  browser.get('/albums/new')
-            //  element(by.id('artistTextID')).sendKeys('Nombre2')
-            //  element(by.id('albumTextID')).sendKeys('Senor2')
-            //  element(by.id('genreTextID')).sendKeys('Flok2')
-            //  element(by.id('btnAlbum')).submit()
-            //  expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/albums')
-            //  })
+             it('Then they should see a update button for the form', (done) => {
+               var id
+               albumsCollection.find({}, (err, data) => {
+                 if(err)
+                 {
+                   done(err)
+                 }
+                id = data[0]._id
+                browser.get('/albums/'+ id + '/edit')
+                  expect(element(by.tagName('h1')).getText()).toEqual('Edit album')
+                  element(by.id('artistTextID')).sendKeys('UPNombre2')
+                  element(by.id('albumTextID')).sendKeys('UPSenor2')
+                  element(by.id('genreTextID')).sendKeys('UPFlok2')
+                  element(by.id('btnUpdate')).submit()
+                  expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/albums')
+                  done()
+                 })
+             })
           })
 
     })

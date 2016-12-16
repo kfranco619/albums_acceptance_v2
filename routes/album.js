@@ -19,7 +19,6 @@ router.get('/albums', function(req, res, next) {
       res.render('albums', {
         albums: albumsList
       })
-      console.log('after render', albumsList)
     })
 
 });
@@ -47,4 +46,13 @@ router.get('/albums/:id/edit', function(req, res, next) {
   })
   //res.render('albums/edit');
 });
+
+router.put('/albums/:id/edit', (req, res) => {
+  albumsCollection.findAndModify({
+    "query": {_id : req.params.id},
+    "update": {'$set': req.body}
+  }, (err, album) => {
+    res.redirect('/albums')
+  })
+})
 module.exports = router;

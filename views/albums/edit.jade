@@ -1,6 +1,6 @@
 div
     h1 Edit album
-    form(method='POST' action='/albums/edit')
+    form(method='POST' action='/albums/#{album._id}/edit?_method=PUT')
         div.form-group
             label(for='artistTextID') Artist: &nbsp;
             input#artistTextID.form-control(type='text' placeholder='Artist' name='artist')
@@ -11,5 +11,4 @@ div
             label(for='genreTextID') Genre: &nbsp;
             input#genreTextID.form-control(type='text' placeholder='Genre' name='genre')
         div.form-group
-            input#btnAlbum.form-control(type='submit' value='Update Album')
-            input#btnAlbum.form-control(type='submit' value='Delete Album')
+            input#btnUpdate.form-control(type='submit' value='Update Album')
