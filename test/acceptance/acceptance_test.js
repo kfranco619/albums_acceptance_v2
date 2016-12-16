@@ -62,6 +62,9 @@ describe('Given a Album site', ()=> {
             expect(element.all(by.tagName('td')).getAttribute('class').getText()).toContain('folk lore')
 
         })
+        it('Then the user shoudl see a link to a specific album', () =>{
+          expect(element.all(by.tagName('a')).get(0).getAttribute('href')).toContain('/albums')
+        })
      })
 
 describe('When the user clicks on the new album', () => {
@@ -74,14 +77,57 @@ describe('When the user clicks on the new album', () => {
             expect(element(by.id('artistTextID')).getAttribute('type')).toBe('text')
             expect(element(by.id('albumTextID')).getAttribute('type')).toBe('text')
             expect(element(by.id('genreTextID')).getAttribute('type')).toBe('text')
+
            })
         it('Then they should see a submit button for the form', () => {
             browser.get('/albums/new')
-            //console.log(element(by.css('.form-control')).getAttribute('type'))
-           expect(element(by.id('btnAlbum')).getAttribute('type')).toBe('button')
-            // expect(element(by.buttonText('Create Album'))).toEqual('Create Album')
+           expect(element(by.id('btnAlbum')).getAttribute('type')).toBe('submit')
+        })
+        it('Then the form should insert a new record', ()=> {
+        browser.get('/albums/new')
+        element(by.id('artistTextID')).sendKeys('Nombre2')
+        element(by.id('albumTextID')).sendKeys('Senor2')
+        element(by.id('genreTextID')).sendKeys('Flok2')
+        element(by.id('btnAlbum')).submit()
+        expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/albums')
         })
      })
+
+     describe('When the user clicks on the edit album', () => {
+             it('Then they should see album details in edit mode', (done)=> {
+                 var id
+                 albumsCollection.find({}, (err, data) => {
+                   if(err)
+                   {
+                     done(err)
+                   }
+                  id = data[0]._id
+                  console.log('this is the collection' , id);
+                  browser.get('/albums/'+ id + 'edit')
+                  expect(element(by.tagName('h1')).getText()).toEqual('Edit album')
+                  done()
+                 })
+                })
+            //  it('Then they should see a textbox for artist', ()=> {
+            //      browser.get('/albums/new')
+            //      expect(element(by.id('artistTextID')).getAttribute('type')).toBe('text')
+            //      expect(element(by.id('albumTextID')).getAttribute('type')).toBe('text')
+            //      expect(element(by.id('genreTextID')).getAttribute('type')).toBe('text')
+             //
+            //     })
+            //  it('Then they should see a submit button for the form', () => {
+            //      browser.get('/albums/new')
+            //     expect(element(by.id('btnAlbum')).getAttribute('type')).toBe('submit')
+            //  })
+            //  it('Then the form should insert a new record', ()=> {
+            //  browser.get('/albums/new')
+            //  element(by.id('artistTextID')).sendKeys('Nombre2')
+            //  element(by.id('albumTextID')).sendKeys('Senor2')
+            //  element(by.id('genreTextID')).sendKeys('Flok2')
+            //  element(by.id('btnAlbum')).submit()
+            //  expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/albums')
+            //  })
+          })
 
     })
 })

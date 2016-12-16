@@ -28,4 +28,23 @@ router.get('/albums', function(req, res, next) {
 router.get('/albums/new', function(req, res, next) {
   res.render('albums/new');
 });
+//Launch Albums with inserted data
+
+router.post('/albums/new', (req, res) => {
+  albumsCollection.insert(req.body, (error, savedAlbum) => {
+    if (error) {
+      return
+    }
+    res.redirect('/albums')
+  })
+})
+
+//Launch Edit Albums
+router.get('/albums/:id/edit', function(req, res, next) {
+
+  albumsCollection.findOne({_id:req.params.id},(err,albumsList)=>{
+    res.render('albums/edit',{album:albumsList})
+  })
+  //res.render('albums/edit');
+});
 module.exports = router;
