@@ -1,4 +1,16 @@
 div
     h1 Albums
     a(href='albums/new') New Album
-    li
+
+    table#album-list
+      thead
+        th Genre
+        th Artist
+        th Album
+      tbody
+        for album in albums
+          tr
+            td.album-genre #{album.genre}
+            td.album-artist #{album.artist}
+            td.album-album
+              a.read(href='/albums/#{album._id}') #{album.album}

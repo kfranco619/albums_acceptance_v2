@@ -11,8 +11,16 @@ router.get('/', function(req, res, next) {
 
 //Launch Albums
 router.get('/albums', function(req, res, next) {
- 
-    res.render('albums')
+    albumsCollection.find({}, (error, albumsList) => {
+      if(error){
+        next(error)
+        return
+      }
+      res.render('albums', {
+        albums: albumsList
+      })
+      console.log('after render', albumsList)
+    })
 
 });
 

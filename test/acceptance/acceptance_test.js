@@ -13,13 +13,20 @@ describe('Express CRUD', () => {
     browser.ignoreSynchronization = true
   })
   beforeAll((done) => {
+    console.log('Im in before');
     albumsCollection.remove(done)
-    var testAlbum = {
+    var albums = {
         artist: 'Nombre',
         album: 'Senor',
         genre: 'folk lore'
     }
-    albumsCollection.insert(testAlbum)
+    albumsCollection.insert(albums, (err, data) => {
+        if(err){
+          done(err)
+        }
+        done()
+    })
+
   })
 
 
@@ -34,7 +41,7 @@ describe('Given a Album site', ()=> {
             expect(element(by.tagName('a')).getText()).toEqual('Let me see the RIGHT NOW!')
          })
         it('the link will redirect to /albums',() => {
-            expect(element(by.tagName('a')).getAttribute('href')).toContain('/albums') 
+            expect(element(by.tagName('a')).getAttribute('href')).toContain('/albums')
          })
      })
 
@@ -45,10 +52,15 @@ describe('Given a Album site', ()=> {
            })
         it('Then they should see New album link', ()=> {
             browser.get('/albums')
-            expect(element(by.tagName('a')).getAttribute('href')).toContain('albums/new') 
+            expect(element(by.tagName('a')).getAttribute('href')).toContain('albums/new')
            })
-        xit('then the user should see the list of albums', ()=>{
-            expect(element(by.name('li')).artist).toEqual('Nombre')
+        it('then the user should see the list of albums', ()=>{
+          //  console.log(albumsCollection.find({}));
+            expect(element(by.tagName('table')).getAttribute('id')).toEqual('album-list')
+            expect(element.all(by.tagName('td')).getAttribute('class').getText()).toContain('Nombre')
+            expect(element.all(by.tagName('td')).getAttribute('class').getText()).toContain('Senor')
+            expect(element.all(by.tagName('td')).getAttribute('class').getText()).toContain('folk lore')
+
         })
      })
 
